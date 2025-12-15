@@ -14,3 +14,15 @@
     - ocb $ODOO_VERSION
     # Example of a merge of the PR with the number <PR>
     # - oca refs/pull/<PR>/head
+
+    
+l10n-brazil:
+  # defaults:
+  #   depth: $DEPTH_MERGE
+  remotes:
+    oca: https://github.com/oca/l10n-brazil.git
+    kmee: https://github.com/kmee/l10n-brazil.git
+  target: kmee 16.0
+  merges:
+    - oca 16.0
+    - oca refs/pull/3795/head
