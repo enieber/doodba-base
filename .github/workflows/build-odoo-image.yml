@@ -48,5 +48,5 @@ jobs:
           push: true
           build-args: |
             ODOO_VERSION=14.0
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: 14.0.${{ github.run_number }}
           labels: ${{ steps.meta.outputs.labels }}
