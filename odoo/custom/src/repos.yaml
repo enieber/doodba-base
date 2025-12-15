@@ -3,18 +3,15 @@
   defaults:
     # Shallow repositories ($DEPTH_DEFAULT=1) are faster & thinner
     # You may need a bigger depth when merging PRs (use $DEPTH_MERGE
-    # for a sane value of 100 commits)
+    # for a sane value of 100 commitms)
     depth: $DEPTH_DEFAULT
   remotes:
-    ocb: https://github.com/OCA/OCB.git
-    odoo: https://github.com/odoo/odoo.git
-    openupgrade: https://github.com/OCA/OpenUpgrade.git
-  target: ocb $ODOO_VERSION
+    kmee: https://github.com/kmee/OCB.git
+  target: kmee v16-25-19
   merges:
-    - ocb $ODOO_VERSION
+    - kmee v16-25-19
     # Example of a merge of the PR with the number <PR>
     # - oca refs/pull/<PR>/head
-
     
 l10n-brazil:
   # defaults:
