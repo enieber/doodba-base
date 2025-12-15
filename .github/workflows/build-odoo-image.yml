@@ -10,43 +10,35 @@ on:
 # Define os trabalhos (jobs) a serem executados.
 jobs:
   build-and-push:
-    # O job será executado em uma máquina virtual Ubuntu fornecida pelo GitHub
     runs-on: ubuntu-latest
-
-    # Define as permissões para o token de automação do GitHub.
     permissions:
       contents: read
-      packages: write
+      packages: write  
 
-    # Define os passos (steps) que o job executará em sequência
     steps:
-      # 1. Baixa o código do seu repositório para a máquina virtual
-      - name: Checkout do Repositório
-        uses: actions/checkout@v4
-
-      # 2. Faz o login no GitHub Container Registry (ghcr.io)
+      - name: "Checkout GitHub Action"
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+ 
+      - name: "Setup Build Version"
+        run: |
+          echo "BUILD_VERSION=14.0.${{ github.run_number }}" >> $GITHUB_ENV
+          echo "Build version: 14.0.${{ github.run_number }}"
       - name: Login no GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      # 3. Gera tags inteligentes para a imagem Docker
-      - name: Extrair metadados (tags) para a Imagem
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ghcr.io/${{ github.repository }}
-
-      # 4. Constrói a imagem Docker e a envia para o GHCR
-      - name: Construir e Enviar a Imagem Docker
+ 
+      - name: Build and push Docker image to Github Registry
         uses: docker/build-push-action@v5
         with:
-          context: ./odoo
-          file: ./odoo/Dockerfile
-          push: true
+          context: ./odoo/
           build-args: |
-            ODOO_VERSION=14.0
-          tags: 14.0.${{ github.run_number }}
-          labels: ${{ steps.meta.outputs.labels }}
+            ODOO_VERSION=${{ github.ref_name }}
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/doodba-clean:${{ env.BUILD_VERSION }}
+ 
