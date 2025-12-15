@@ -37,7 +37,7 @@ jobs:
         with:
           context: ./odoo/
           build-args: |
-            ODOO_VERSION=${{ github.ref_name }}
+            ODOO_VERSION=14.0
           push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/doodba-clean:${{ env.BUILD_VERSION }}
